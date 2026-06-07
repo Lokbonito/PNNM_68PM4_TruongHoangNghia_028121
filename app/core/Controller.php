@@ -11,8 +11,8 @@ class Controller
 
     public function view($viewname, $data = [])
     {
-        extract($data);
+        extract($data, EXTR_SKIP);
 
-        require_once __DIR__ . "/../views/" . $viewname . ".php";
+        require_once __DIR__ . '/../views/' . $viewname . '.php';
     }
 }

@@ -1,5 +1,5 @@
 <?php
-require_once "../app/core/DB.php";
+require_once __DIR__ . '/../core/DB.php';
 class sinhvienModel
 {
     private $conn;
@@ -14,5 +14,19 @@ class sinhvienModel
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create($MSSV, $HoTen, $GioiTinh)
+    {
+        $query = "INSERT INTO sinhvien (MSSV, HoTen, GioiTinh) VALUES ( :MSSV, :HoTen, :GioiTinh )";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':MSSV', $MSSV);
+        $stmt->bindParam(':HoTen', $HoTen);
+        $stmt->bindParam(':GioiTinh', $GioiTinh);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

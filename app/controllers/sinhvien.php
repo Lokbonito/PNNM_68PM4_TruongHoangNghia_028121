@@ -9,7 +9,7 @@ class sinhvien extends Controller
         $sinhVienModel = $this->model('sinhvienModel');
 
         $sinhviens = $sinhVienModel->getAllSinhVien();
-
+        
         $this->view(
             'sinhvien/index',
             [
@@ -17,11 +17,29 @@ class sinhvien extends Controller
                 'sinhviens' => $sinhviens
             ]
         );
-
     }
 
     public function create()
     {
         $this->view('sinhvien/create');
+    }
+
+    public function store()
+    {
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $MSSV = $_POST['MSSV'];
+            $HoTen = $_POST['HoTen'];
+            $GioiTinh = $_POST['GioiTinh'];
+
+            $sinhvienModel = $this->model('sinhvienModel');
+            $result = $sinhvienModel->create($MSSV, $HoTen, $GioiTinh);
+            if ($result) {
+                header("Location: /sinhvien/index");
+                exit();
+            } else {
+                echo "Đã xảy ra lỗi khi tạo sinh viên.";
+                exit();
+            }
+        }
     }
 }
