@@ -1,12 +1,11 @@
 <?php
-
-require_once '../app/core/Middleware.php';
+require_once __DIR__ . '/../middleware/Middleware.php';
 
 class Auth
 {
     protected $users = [
         'admin' => '123456',
-        'user1' => 'password1', 
+        'user1' => 'password1',
         'user2' => 'password2',
     ];
 
@@ -17,7 +16,6 @@ class Auth
 
     public function login()
     {
-        Middleware::guest();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

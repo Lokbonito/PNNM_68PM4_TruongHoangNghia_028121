@@ -1,17 +1,13 @@
 <?php
 
-require_once '../app/core/Middleware.php';
+require_once __DIR__ . '/../middleware/Middleware.php';
+
 
 class home
 {
-    public function __construct()
-    {
-        Middleware::auth();
-    }
-
     public function index()
     {
-        require_once '../app/views/home/index.php';
+        require_once __DIR__ . '/../views/home/index.php';
     }
 
     public function create()
@@ -19,5 +15,3 @@ class home
         echo "Đây là trang tạo mới Home";
     }
 }
-
-?>
