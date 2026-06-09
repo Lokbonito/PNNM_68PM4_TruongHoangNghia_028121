@@ -6,40 +6,92 @@ class sinhvien extends Controller
 {
     public function index()
     {
-        $sinhVienModel = $this->model('sinhvienModel');
+        try {
 
-        $sinhviens = $sinhVienModel->getAllSinhVien();
-        
-        $this->view(
-            'sinhvien/index',
-            [
-                'title' => 'Danh sách sinh viên',
-                'sinhviens' => $sinhviens
-            ]
-        );
+            $sinhVienModel = $this->model('sinhvienModel');
+
+            $page = isset($_GET['page'])
+                ? (int)$_GET['page']
+                : 1;
+
+            if ($page < 1) {
+                $page = 1;
+            }
+
+            $limit = 5;
+            $offset = ($page - 1) * $limit;
+
+            $total = $sinhVienModel->countAll();
+
+            $sinhviens = $sinhVienModel->getPaginated(
+                $limit,
+                $offset
+            );
+
+            $totalPages = ceil($total / $limit);
+
+            $this->view(
+                'sinhvien/index',
+                [
+                    'title' => 'Danh sách sinh viên',
+                    'sinhviens' => $sinhviens,
+                    'total' => $total,
+                    'page' => $page,
+                    'totalPages' => $totalPages
+                ]
+            );
+
+        } catch (Throwable $e) {
+
+            echo "Lỗi: " . $e->getMessage();
+        }
     }
 
     public function create()
     {
-        $this->view('sinhvien/create');
+        $this->view(
+            'sinhvien/create',
+            [
+                'title' => 'Thêm sinh viên'
+            ]
+        );
     }
 
     public function store()
     {
-        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $MSSV = $_POST['MSSV'];
-            $HoTen = $_POST['HoTen'];
-            $GioiTinh = $_POST['GioiTinh'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $MSSV = trim($_POST['MSSV']);
+            $HoTen = trim($_POST['HoTen']);
+            $GioiTinh = trim($_POST['GioiTinh']);
+
+            if (
+                empty($MSSV) ||
+                empty($HoTen) ||
+                empty($GioiTinh)
+            ) {
+
+                die('Vui lòng nhập đầy đủ thông tin');
+            }
 
             $sinhvienModel = $this->model('sinhvienModel');
-            $result = $sinhvienModel->create($MSSV, $HoTen, $GioiTinh);
+
+            $result = $sinhvienModel->create(
+                $MSSV,
+                $HoTen,
+                $GioiTinh
+            );
+
             if ($result) {
-                header("Location: /sinhvien/index");
-                exit();
-            } else {
-                echo "Đã xảy ra lỗi khi tạo sinh viên.";
+
+                header(
+                    "Location: /PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/index"
+                );
+
                 exit();
             }
+
+            echo "Thêm sinh viên thất bại";
         }
     }
 }
