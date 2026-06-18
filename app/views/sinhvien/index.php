@@ -34,6 +34,43 @@
             href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/create">
             Thêm sinh viên
         </a>
+        <form method="GET">
+
+            <input
+                type="text"
+                name="keyword"
+                placeholder="Tìm MSSV hoặc Họ tên"
+                value="<?= $keyword ?? '' ?>">
+
+            <select name="MaLop">
+
+                <option value="">
+                    -- Tất cả lớp --
+                </option>
+
+                <?php foreach ($lophocs as $lop): ?>
+
+                    <option
+                        value="<?= $lop['MaLop'] ?>"
+                        <?= ($MaLop == $lop['MaLop']) ? 'selected' : '' ?>>
+                        <?= $lop['TenLop'] ?>
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+            <button type="submit">
+                Tìm kiếm
+            </button>
+
+            <a href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/index">
+                Reset
+            </a>
+
+        </form>
+
+        <br>
 
         <table>
             <tr>
@@ -47,7 +84,7 @@
 
             <?php foreach ($sinhviens as $index => $sinhvien): ?>
                 <tr>
-                    <td><?= $offset + $index + 1 ?></td>
+                    <td><?= $index + 1 ?></td>
 
                     <td><?= $sinhvien['MSSV'] ?></td>
 

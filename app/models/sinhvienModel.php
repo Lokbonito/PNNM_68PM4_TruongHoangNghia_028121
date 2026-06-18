@@ -138,4 +138,43 @@ class sinhvienModel
 
         return $stmt->execute();
     }
+
+    public function search($keyword = '', $MaLop = '')
+    {
+        $query = "
+        SELECT *
+        FROM sinhvien
+        WHERE 1=1
+    ";
+
+        if (!empty($keyword)) {
+            $query .= "
+            AND (
+                MSSV LIKE :keyword
+                OR HoTen LIKE :keyword
+            )
+        ";
+        }
+
+        if (!empty($MaLop)) {
+            $query .= "
+            AND MaLop = :MaLop
+        ";
+        }
+
+        $stmt = $this->conn->prepare($query);
+
+        if (!empty($keyword)) {
+            $searchKeyword = "%{$keyword}%";
+            $stmt->bindParam(':keyword', $searchKeyword);
+        }
+
+        if (!empty($MaLop)) {
+            $stmt->bindParam(':MaLop', $MaLop);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

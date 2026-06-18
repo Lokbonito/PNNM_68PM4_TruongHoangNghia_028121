@@ -7,38 +7,32 @@ class sinhvien extends Controller
     public function index()
     {
         $sinhvienModel = $this->model('sinhvienModel');
+        $lophocModel = $this->model('lophocModel');
 
-        $page = isset($_GET['page'])
-            ? (int)$_GET['page']
-            : 1;
+        $keyword = $_GET['keyword'] ?? '';
+        $MaLop = $_GET['MaLop'] ?? '';
 
-        if ($page < 1) {
-            $page = 1;
+        if (!empty($keyword) || !empty($MaLop)) {
+
+            $sinhviens = $sinhvienModel->search(
+                $keyword,
+                $MaLop
+            );
+        } else {
+
+            $sinhviens = $sinhvienModel->getAllSinhVien();
         }
 
-        $limit = 5;
-
-        $offset = ($page - 1) * $limit;
-
-        $total = $sinhvienModel->countAll();
-
-        $sinhviens = $sinhvienModel->getPaginated(
-            $limit,
-            $offset
-        );
-
-        $totalPages = ceil($total / $limit);
+        $lophocs = $lophocModel->getAll();
 
         $this->view(
             'sinhvien/index',
             [
                 'title' => 'Danh sách sinh viên',
                 'sinhviens' => $sinhviens,
-                'page' => $page,
-                'limit' => $limit,
-                'offset' => $offset,
-                'total' => $total,
-                'totalPages' => $totalPages
+                'lophocs' => $lophocs,
+                'keyword' => $keyword,
+                'MaLop' => $MaLop
             ]
         );
     }
