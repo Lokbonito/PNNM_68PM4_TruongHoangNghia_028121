@@ -60,6 +60,12 @@
                     <a href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/edit/<?php echo $sinhvien['id']; ?>">
                         Sửa
                     </a>
+
+                    <a
+                        href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/destroy/<?php echo $sinhvien['id']; ?>"
+                        onclick="return confirm('Bạn có chắc muốn xóa?')">
+                        Xóa
+                    </a>
                 </td>
             </tr>
 

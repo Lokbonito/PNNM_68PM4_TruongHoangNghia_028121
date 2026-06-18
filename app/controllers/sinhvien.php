@@ -138,4 +138,22 @@ class sinhvien extends Controller
             echo "Cập nhật thất bại";
         }
     }
+
+    public function destroy($id)
+    {
+        $sinhvienModel = $this->model('sinhvienModel');
+
+        $result = $sinhvienModel->delete($id);
+
+        if ($result) {
+
+            header(
+                "Location: /PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/index"
+            );
+
+            exit();
+        }
+
+        echo "Xóa sinh viên thất bại";
+    }
 }
