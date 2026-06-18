@@ -177,4 +177,87 @@ class sinhvienModel
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getAllSorted($sort = 'MSSV', $order = 'ASC')
+    {
+        $allowSort = ['MSSV', 'HoTen'];
+        $allowOrder = ['ASC', 'DESC'];
+
+        if (!in_array($sort, $allowSort)) {
+            $sort = 'MSSV';
+        }
+
+        if (!in_array(strtoupper($order), $allowOrder)) {
+            $order = 'ASC';
+        }
+
+        $query = "
+        SELECT *
+        FROM sinhvien
+        ORDER BY $sort $order
+    ";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function filter(
+        $keyword = '',
+        $MaLop = '',
+        $sort = 'MSSV',
+        $order = 'ASC'
+    ) {
+        $query = "
+        SELECT *
+        FROM sinhvien
+        WHERE 1 = 1
+    ";
+
+        if (!empty($keyword)) {
+            $query .= "
+            AND (
+                MSSV LIKE :keyword
+                OR HoTen LIKE :keyword
+            )
+        ";
+        }
+
+        if (!empty($MaLop)) {
+            $query .= "
+            AND MaLop = :MaLop
+        ";
+        }
+
+        $allowSort = ['MSSV', 'HoTen'];
+
+        if (!in_array($sort, $allowSort)) {
+            $sort = 'MSSV';
+        }
+
+        $order = strtoupper($order);
+
+        if (!in_array($order, ['ASC', 'DESC'])) {
+            $order = 'ASC';
+        }
+
+        $query .= " ORDER BY $sort $order";
+
+        $stmt = $this->conn->prepare($query);
+
+        if (!empty($keyword)) {
+            $searchKeyword = "%{$keyword}%";
+            $stmt->bindParam(':keyword', $searchKeyword);
+        }
+
+        if (!empty($MaLop)) {
+            $stmt->bindParam(':MaLop', $MaLop);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

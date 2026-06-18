@@ -27,13 +27,16 @@
 <body>
 
     <body>
-
         <h1><?= $title ?></h1>
 
-        <a class="btn-create"
-            href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/create">
-            Thêm sinh viên
-        </a>
+        <p>
+            <a href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/create">
+                Thêm sinh viên
+            </a>
+        </p>
+
+        <br>
+
         <form method="GET">
 
             <input
@@ -57,6 +60,34 @@
                     </option>
 
                 <?php endforeach; ?>
+
+            </select>
+
+            <select name="sort">
+
+                <option value="MSSV"
+                    <?= ($sort == 'MSSV') ? 'selected' : '' ?>>
+                    MSSV
+                </option>
+
+                <option value="HoTen"
+                    <?= ($sort == 'HoTen') ? 'selected' : '' ?>>
+                    Họ tên
+                </option>
+
+            </select>
+
+            <select name="order">
+
+                <option value="ASC"
+                    <?= ($order == 'ASC') ? 'selected' : '' ?>>
+                    Tăng dần
+                </option>
+
+                <option value="DESC"
+                    <?= ($order == 'DESC') ? 'selected' : '' ?>>
+                    Giảm dần
+                </option>
 
             </select>
 

@@ -12,16 +12,15 @@ class sinhvien extends Controller
         $keyword = $_GET['keyword'] ?? '';
         $MaLop = $_GET['MaLop'] ?? '';
 
-        if (!empty($keyword) || !empty($MaLop)) {
+        $sort = $_GET['sort'] ?? 'MSSV';
+        $order = $_GET['order'] ?? 'ASC';
 
-            $sinhviens = $sinhvienModel->search(
-                $keyword,
-                $MaLop
-            );
-        } else {
-
-            $sinhviens = $sinhvienModel->getAllSinhVien();
-        }
+        $sinhviens = $sinhvienModel->filter(
+            $keyword,
+            $MaLop,
+            $sort,
+            $order
+        );
 
         $lophocs = $lophocModel->getAll();
 
@@ -32,7 +31,9 @@ class sinhvien extends Controller
                 'sinhviens' => $sinhviens,
                 'lophocs' => $lophocs,
                 'keyword' => $keyword,
-                'MaLop' => $MaLop
+                'MaLop' => $MaLop,
+                'sort' => $sort,
+                'order' => $order
             ]
         );
     }
