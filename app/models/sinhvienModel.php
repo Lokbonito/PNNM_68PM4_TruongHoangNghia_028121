@@ -65,8 +65,7 @@ class sinhvienModel
         $MSSV,
         $HoTen,
         $GioiTinh
-    )
-    {
+    ) {
         $query = "
             INSERT INTO sinhvien
             (
@@ -84,6 +83,40 @@ class sinhvienModel
 
         $stmt = $this->conn->prepare($query);
 
+        $stmt->bindParam(':MSSV', $MSSV);
+        $stmt->bindParam(':HoTen', $HoTen);
+        $stmt->bindParam(':GioiTinh', $GioiTinh);
+
+        return $stmt->execute();
+    }
+
+    public function findById($id)
+    {
+        $query = "SELECT * FROM sinhvien WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':id', $id);
+
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function update($id, $MSSV, $HoTen, $GioiTinh)
+    {
+        $query = "
+        UPDATE sinhvien
+        SET
+            MSSV = :MSSV,
+            HoTen = :HoTen,
+            GioiTinh = :GioiTinh
+        WHERE id = :id
+    ";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':id', $id);
         $stmt->bindParam(':MSSV', $MSSV);
         $stmt->bindParam(':HoTen', $HoTen);
         $stmt->bindParam(':GioiTinh', $GioiTinh);

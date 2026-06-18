@@ -40,7 +40,6 @@ class sinhvien extends Controller
                     'totalPages' => $totalPages
                 ]
             );
-
         } catch (Throwable $e) {
 
             echo "Lỗi: " . $e->getMessage();
@@ -92,6 +91,51 @@ class sinhvien extends Controller
             }
 
             echo "Thêm sinh viên thất bại";
+        }
+    }
+
+    public function edit($id)
+    {
+        $sinhvienModel = $this->model('sinhvienModel');
+
+        $sinhvien = $sinhvienModel->findById($id);
+
+        $this->view(
+            'sinhvien/edit',
+            [
+                'title' => 'Cập nhật sinh viên',
+                'sinhvien' => $sinhvien
+            ]
+        );
+    }
+
+    public function update($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $MSSV = $_POST['MSSV'];
+            $HoTen = $_POST['HoTen'];
+            $GioiTinh = $_POST['GioiTinh'];
+
+            $sinhvienModel = $this->model('sinhvienModel');
+
+            $result = $sinhvienModel->update(
+                $id,
+                $MSSV,
+                $HoTen,
+                $GioiTinh
+            );
+
+            if ($result) {
+
+                header(
+                    "Location: /PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/index"
+                );
+
+                exit();
+            }
+
+            echo "Cập nhật thất bại";
         }
     }
 }
