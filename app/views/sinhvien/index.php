@@ -26,63 +26,75 @@
 
 <body>
 
-    <h1><?= $title ?></h1>
+    <body>
 
-    <p>
-        Tổng số sinh viên:
-        <?= $total ?>
-    </p>
+        <h1><?= $title ?></h1>
 
-    <p>
-        <a href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/create">
+        <a class="btn-create"
+            href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/create">
             Thêm sinh viên
         </a>
-    </p>
 
-    <table>
-
-        <tr>
-            <th>ID</th>
-            <th>MSSV</th>
-            <th>Họ tên</th>
-            <th>Giới tính</th>
-            <th>Thao tác</th>
-        </tr>
-
-        <?php foreach ($sinhviens as $sinhvien): ?>
-
+        <table>
             <tr>
-                <td><?= $sinhvien['id'] ?></td>
-                <td><?= $sinhvien['MSSV'] ?></td>
-                <td><?= $sinhvien['HoTen'] ?></td>
-                <td><?= $sinhvien['GioiTinh'] ?></td>
-                <td>
-                    <a href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/edit/<?php echo $sinhvien['id']; ?>">
-                        Sửa
-                    </a>
-
-                    <a
-                        href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/destroy/<?php echo $sinhvien['id']; ?>"
-                        onclick="return confirm('Bạn có chắc muốn xóa?')">
-                        Xóa
-                    </a>
-                </td>
+                <th>STT</th>
+                <th>MSSV</th>
+                <th>Họ Tên</th>
+                <th>Giới Tính</th>
+                <th>Mã Lớp</th>
+                <th>Thao Tác</th>
             </tr>
 
-        <?php endforeach; ?>
+            <?php foreach ($sinhviens as $index => $sinhvien): ?>
+                <tr>
+                    <td><?= $offset + $index + 1 ?></td>
 
-    </table>
+                    <td><?= $sinhvien['MSSV'] ?></td>
 
-    <br>
+                    <td><?= $sinhvien['HoTen'] ?></td>
 
-    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <td><?= $sinhvien['GioiTinh'] ?></td>
 
-        <a href="?page=<?= $i ?>">
-            <?= $i ?>
-        </a>
+                    <td><?= $sinhvien['MaLop'] ?></td>
 
-    <?php endfor; ?>
+                    <td class="action">
 
-</body>
+                        <a href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/edit/<?= $sinhvien['id'] ?>">
+                            Sửa
+                        </a>
+
+                        <a href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/destroy/<?= $sinhvien['id'] ?>"
+                            onclick="return confirm('Bạn có chắc muốn xóa sinh viên này?')">
+                            Xóa
+                        </a>
+
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+
+        </table>
+
+        <?php if (isset($totalPages) && $totalPages > 1): ?>
+
+            <div class="pagination">
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+
+                    <a
+                        class="<?= ($i == $page) ? 'active' : '' ?>"
+                        href="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/index?page=<?= $i ?>">
+
+                        <?= $i ?>
+
+                    </a>
+
+                <?php endfor; ?>
+
+            </div>
+
+        <?php endif; ?>
+
+    </body>
+
 
 </html>

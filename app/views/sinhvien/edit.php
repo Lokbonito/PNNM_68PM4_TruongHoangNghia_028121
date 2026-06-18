@@ -1,62 +1,81 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?></title>
 </head>
+
 <body>
 
-<h1><?= $title ?></h1>
+    <h1><?= $title ?></h1>
 
-<form
-    action="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/update/<?= $sinhvien['id'] ?>"
-    method="POST"
->
+    <form
+        action="/PNNM_68PM4_TruongHoangNghia_028121/public/sinhvien/update/<?= $sinhvien['id'] ?>"
+        method="POST">
 
-    <p>
-        MSSV
+        <p>
+            MSSV
+            <br>
+            <input
+                type="text"
+                name="MSSV"
+                value="<?= $sinhvien['MSSV'] ?>"
+                required>
+        </p>
+
         <br>
-        <input
-            type="text"
-            name="MSSV"
-            value="<?= $sinhvien['MSSV'] ?>"
-            required
-        >
-    </p>
 
-    <br>
+        <p>
+            Họ tên
+            <br>
+            <input
+                type="text"
+                name="HoTen"
+                value="<?= $sinhvien['HoTen'] ?>"
+                required>
+        </p>
 
-    <p>
-        Họ tên
         <br>
-        <input
-            type="text"
-            name="HoTen"
-            value="<?= $sinhvien['HoTen'] ?>"
-            required
-        >
-    </p>
 
-    <br>
+        <p>
+            Giới tính
+            <br>
+            <input
+                type="text"
+                name="GioiTinh"
+                value="<?= $sinhvien['GioiTinh'] ?>"
+                required>
+        </p>
 
-    <p>
-        Giới tính
         <br>
-        <input
-            type="text"
-            name="GioiTinh"
-            value="<?= $sinhvien['GioiTinh'] ?>"
-            required
-        >
-    </p>
 
-    <br>
+        <p>
+            Mã lớp
+            <br>
 
-    <button type="submit">
-        Cập nhật
-    </button>
+            <select name="MaLop">
 
-</form>
+                <?php foreach ($lophocs as $lop): ?>
+
+                    <option
+                        value="<?= $lop['MaLop'] ?>"
+                        <?= ($lop['MaLop'] == $sinhvien['MaLop']) ? 'selected' : '' ?>>
+                        <?= $lop['TenLop'] ?>
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+        </p>
+
+        <button type="submit">
+            Cập nhật
+        </button>
+
+    </form>
 
 </body>
+
 </html>

@@ -64,29 +64,32 @@ class sinhvienModel
     public function create(
         $MSSV,
         $HoTen,
-        $GioiTinh
+        $GioiTinh,
+        $MaLop
     ) {
         $query = "
-            INSERT INTO sinhvien
-            (
-                MSSV,
-                HoTen,
-                GioiTinh
-            )
-            VALUES
-            (
-                :MSSV,
-                :HoTen,
-                :GioiTinh
-            )
-        ";
+    INSERT INTO sinhvien
+    (
+        MSSV,
+        HoTen,
+        GioiTinh,
+        MaLop
+    )
+    VALUES
+    (
+        :MSSV,
+        :HoTen,
+        :GioiTinh,
+        :MaLop
+    )
+";
 
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(':MSSV', $MSSV);
         $stmt->bindParam(':HoTen', $HoTen);
         $stmt->bindParam(':GioiTinh', $GioiTinh);
-
+        $stmt->bindParam(':MaLop', $MaLop);
         return $stmt->execute();
     }
 
@@ -103,14 +106,15 @@ class sinhvienModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update($id, $MSSV, $HoTen, $GioiTinh)
+    public function update($id, $MSSV, $HoTen, $GioiTinh, $MaLop)
     {
         $query = "
         UPDATE sinhvien
         SET
             MSSV = :MSSV,
             HoTen = :HoTen,
-            GioiTinh = :GioiTinh
+            GioiTinh = :GioiTinh,
+            MaLop = :MaLop
         WHERE id = :id
     ";
 
@@ -120,18 +124,18 @@ class sinhvienModel
         $stmt->bindParam(':MSSV', $MSSV);
         $stmt->bindParam(':HoTen', $HoTen);
         $stmt->bindParam(':GioiTinh', $GioiTinh);
-
+        $stmt->bindParam(':MaLop', $MaLop);
         return $stmt->execute();
     }
 
     public function delete($id)
-{
-    $query = "DELETE FROM sinhvien WHERE id = :id";
+    {
+        $query = "DELETE FROM sinhvien WHERE id = :id";
 
-    $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-    $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id);
 
-    return $stmt->execute();
-}
+        return $stmt->execute();
+    }
 }
